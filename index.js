@@ -14,7 +14,7 @@ app.listen(5000, () => {
 });
 
 app.get("/message", (req, res) => {
-  //   return res.json({ message: "Hello from server!" });
+  return res.json({ message: "Hello from server!" });
 
   const printPdf = async (templatePath, data) => {
     const templateHtml = fs.readFileSync(
@@ -72,50 +72,55 @@ app.get("/message", (req, res) => {
     });
     res.send(pdf);
   });
-  //   const compile = async function (templateName, data) {
-  //     const filePath = path.join(
-  //       process.cwd(),
-  //       "src/template",
-  //       `${templateName}.hbs`
-  //     );
-  //     //   console.log(data, "data");
-  //     const html = await fs.readFile(filePath, "utf-8");
-  //     return hbs.compile(html)(data);
-  //   };
+});
 
-  //   async function printPdf() {
-  //     try {
-  //       // Create a browser instance
-  //       const browser = await puppeteer.launch();
-  //       // Create a new page
-  //       const page = await browser.newPage();
-  //       const content = await compile("sample", data);
-  //       await page.setContent(content, { waitUntil: "domcontentloaded" });
+app.post("/generatePdf", async (req, res) => {
+  //   return res.json({ message: "Hello from server!" });
+  let tdata = req.body;
+  // console.log(req.body);
+  // return;
 
-  //       // To reflect CSS used for screens instead of print
-  //       await page.emulateMediaType("screen");
+  const printPdf = async (templatePath, data) => {
+    const templateHtml = fs.readFileSync(
+      path.join(
+        process.cwd(),
+        process.platform === "linux"
+          ? `/src/template/${templatePath}.html`
+          : `src\\template\\${templatePath}.html`
+      ),
+      "utf8"
+    );
+    const template = hbs.compile(templateHtml);
+    hbs.registerHelper("json", function (context) {
+      return JSON.stringify(context);
+    });
+    const html = template(data);
+    let milis = Math.round(+new Date() / 1000); //new Date();
+    const pdfPath =
+      process.platform === "linux"
+        ? path.join(process.cwd() + "/src/TempPdfs", `${milis}.pdf`)
+        : path.join("src\\TempPdfs", `${milis}.pdf`);
+    let options = {};
+    options = {
+      path: pdfPath,
+    };
+    const browser = await puppeteer.launch({
+      headless: true,
+    });
 
-  //       // Downlaod the PDF
-  //       const pdf = await page.pdf({
-  //         path: `tempFile.pdf`,
-  //         // margin: { top: "100px", right: "50px", bottom: "100px", left: "50px" },
-  //         printBackground: true,
-  //         format: "A4",
-  //       });
+    const page = await browser.newPage();
+    await page.setContent(html, { waitUntil: "networkidle0" });
+    const pdf = await page.pdf({
+      format: "A4",
+      ...options,
+    });
+    await browser.close();
+    fs.unlink(pdfPath)
+    return pdf;
+  };
 
-  //       //   Close the browser instance
-  //       await browser.close();
-  //       //   await fs.unlinkSync(samplePdfFile);
-
-  //       res.set({
-  //         "Content-Type": "application/pdf",
-  //         // "Content-Length": pdf.length,
-  //       });
-
-  //       res.send(pdf);
-  //     } catch (error) {
-  //       console.log("our eroor ", error);
-  //     }
-  //   }
-  //   return printPdf();
+  return await printPdf("sample", tdata).then((pdf) => {
+    res.contentType("application/pdf");
+    res.status(200).send(pdf);
+  });
 });
