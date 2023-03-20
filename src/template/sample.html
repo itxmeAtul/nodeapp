@@ -8,31 +8,105 @@
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
     />
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+      .pdfBody {
+        background-color: bisque !important;
+      }
+      .compName {
+        color: #ff0000 !important;
+        font-weight: bolder;
+        text-decoration: underline;
+        font-size: 15pt;
+      }
+      .add {
+        font-weight: bold;
+        font-size: 10pt;
+      }
+      .title {
+        font-weight: 700;
+        font-size: 13pt;
+      }
+    </style>
   </head>
   <body>
     <div
       id="content"
       style="margin: auto; padding: 4px"
-      className="card col-sm-12 col-md-12 col-xl-6"
+      class="card col-sm-12 col-md-12 col-xl-6"
     >
-      <div className="card-body">
-        <div className="container mb-5 mt-3">
-          <div className="row d-flex ">
-            <div className="flex text-center">
-              <p
-                className="mb-0"
-                style="
-                  color: #f00;
-                  font-weight: bold;
-                  text-decoration: underline;
-                  font-size: 18pt;
-                "
-              >
-                {{data.compName}}
-              </p>
+      <div class="container mb-5 mt-3 pdfBody">
+        <div class="card-body">
+          <div class="row d-flex">
+            <div class="flex text-center" style="margin-top: 50px !important">
+              <span class="m-0 compName">REDCLIP EVENT AND ENTERTAINMENT</span>
             </div>
+            <div class="text-center">
+              <span class="add">
+                Kasam Shaikh Chawl No. 33, V. L. Sawant Marg, Amboli,
+                Bhardawadi, Andheri West
+              </span>
+            </div>
+            <div class="text-center">
+              <span class="add">Mumbai</span> - <span class="add">400 058</span>
+            </div>
+            <div class="text-center">
+              <span class="add">Mobile</span> -
+              <span class="add">9892006037 / 9619990462</span>
+            </div>
+            <div class="text-center">
+              <span class="title">Bill Invoice</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div>
+                <span class="text-sm text-grey-m2 align-middle">To:</span>
+                <span class="text-600 text-110 text-blue align-middle"
+                  >Alex Doe</span
+                >
+              </div>
+              <div class="text-grey-m2">
+                <div class="my-1">Street, City</div>
+                <div class="my-1">State, Country</div>
+                <div class="my-1">
+                  <i class="fa fa-phone fa-flip-horizontal text-secondary"></i>
+                  <b class="text-600">111-111-111</b>
+                </div>
+              </div>
+            </div>
+            <!-- /.col -->
+
+            <div
+              class="text-95 col-sm-6 align-self-start d-sm-flex justify-content-end"
+            >
+              <div class="text-grey-m2">
+                <div class="mt-1 mb-2 text-secondary-m1 text-600 text-125">
+                  Invoice
+                </div>
+
+                <div class="my-2">
+                  <i class="fa fa-circle text-blue-m2 text-xs mr-1"></i>
+                  <span class="text-600 text-90">ID:</span> #111-222
+                </div>
+
+                <div class="my-2">
+                  <i class="fa fa-circle text-blue-m2 text-xs mr-1"></i>
+                  <span class="text-600 text-90">Issue Date:</span> Oct 12, 2019
+                </div>
+
+                <div class="my-2">
+                  <i class="fa fa-circle text-blue-m2 text-xs mr-1"></i>
+                  <span class="text-600 text-90">Status:</span>
+                  <span class="badge badge-warning badge-pill px-25"
+                    >Unpaid</span
+                  >
+                </div>
+              </div>
+            </div>
+            <!-- /.col -->
           </div>
         </div>
       </div>

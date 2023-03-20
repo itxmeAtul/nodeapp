@@ -52,7 +52,7 @@ app.get("/message", (req, res) => {
     };
 
     const browser = await puppeteer.launch({
-      headless: true,
+      headless: false,
     });
 
     const page = await browser.newPage();

@@ -5,3 +5,5 @@ node_modules/
 *.env
 debug.log
 uploads/
+# Local Netlify folder
+.netlify
