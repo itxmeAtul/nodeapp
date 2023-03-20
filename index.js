@@ -6,6 +6,7 @@ const data = require("./src/data/database.json");
 const hbs = require("handlebars");
 const path = require("path");
 const app = express();
+require("dotenv").config();
 
 app.use(cors());
 app.use(express.json());
@@ -106,6 +107,16 @@ app.post("/generatePdf", async (req, res) => {
     };
     const browser = await puppeteer.launch({
       headless: true,
+      executablePath:
+        process.env.NODE_ENV === "production"
+          ? process.env.PUPPETEER_EXECUTABLE_PATH
+          : puppeteer.executablePath(),
+      args: [
+        "--disable-setuid-sandbox",
+        "--no-sandbox",
+        "--single-process",
+        "--no-zygote",
+      ],
     });
 
     const page = await browser.newPage();
@@ -115,7 +126,7 @@ app.post("/generatePdf", async (req, res) => {
       ...options,
     });
     await browser.close();
-    fs.unlink(pdfPath)
+    fs.unlink(pdfPath);
     return pdf;
   };
 
